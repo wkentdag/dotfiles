@@ -2,20 +2,18 @@
 source ~/.git-completion.sh
 source ~/.git-prompt.sh
 eval "$(hub alias -s)"
+eval "$(thefuck --alias)"
 
 # prompt
-emojis=('🚀' '🎯' '🎾' '🤖' '👽' '👻' '👀' '💍' '🐔' '🐙' '🐤' '🐠' '🍁' '✨' '💥' '🍉' '🍕' '🍪' '🍭' '🍺' '⛵️' '💸' '🔑')
-icon=${emojis[$RANDOM % ${#emojis[@]} ]}
-PS1='${icon}  \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") '
+PS1='⚡️  \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") '
 
 # general
 alias ll="ls -lahG"
 alias reload="exec $SHELL -l"
 alias profile="vim ~/.profile"
-alias p="echo ''; cd ~/Sites; ls -c1; echo '';"
+alias p="echo ''; cd ~/local-dev; ls -c1; echo '';"
 alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
-alias fact="echo '------------------------------------------------------------';  curl -s randomfunfacts.com | LANG=C sed -n 's/.*<i>\(.*\)<\/i>.*/\1/p'; echo '------------------------------------------------------------'"
 
 # git
 alias co="git checkout"
