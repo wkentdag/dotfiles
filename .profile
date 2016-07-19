@@ -5,7 +5,7 @@ eval "$(hub alias -s)"
 eval "$(thefuck --alias)"
 
 # prompt
-PS1='⚡️  \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") '
+PS1='⚡️  \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
 
 # general
 alias ll="ls -lahG"
