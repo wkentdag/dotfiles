@@ -14,6 +14,7 @@ alias profile="vim ~/.profile"
 alias p="echo ''; cd ~/local-dev; ls -c1; echo '';"
 alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
+alias t="echo ''; cd ~/launchpad/carlsbad/cache/default/main/GettyPublic/WORKAREA/wkentdaggett; ls -c1; echo '';"
 
 # git
 alias co="git checkout"
