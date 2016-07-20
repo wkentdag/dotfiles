@@ -9,6 +9,7 @@ PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]")
 
 # general
 alias ls="ls -c1"
+alias la="ls -a"
 alias ll="ls -lahG"
 alias reload="exec $SHELL -l"
 alias profile="vim ~/.profile"
@@ -17,6 +18,7 @@ alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
 alias t="echo ''; cd ~/launchpad/carlsbad/cache/default/main/GettyPublic/WORKAREA/wkentdaggett; ls -c1; echo '';"
 alias wifi="wifi-password"
+alias bitly="bitly-client"
 
 # git
 alias co="git checkout"
@@ -29,8 +31,15 @@ alias pullr="git pull -r"
 alias push="git push"
 alias ri="git rebase -i"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias d="git diff"
 alias branch="git branch"
 alias amend="git commit --amend -m"
+
+# creates a new directory h/t http://bit.ly/2a9SPBi
+function mk() {
+  mkdir -p "$@" && cd "$@"
+}
+
 
 # squashes the current changes into the previous commit
 fixup() {
