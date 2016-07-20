@@ -5,9 +5,10 @@ eval "$(hub alias -s)"
 eval "$(thefuck --alias)"
 
 # prompt
-PS1='⚡️  \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
+PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
 
 # general
+alias ls="ls -c1"
 alias ll="ls -lahG"
 alias reload="exec $SHELL -l"
 alias profile="vim ~/.profile"
@@ -15,6 +16,7 @@ alias p="echo ''; cd ~/local-dev; ls -c1; echo '';"
 alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
 alias t="echo ''; cd ~/launchpad/carlsbad/cache/default/main/GettyPublic/WORKAREA/wkentdaggett; ls -c1; echo '';"
+alias wifi="wifi-password"
 
 # git
 alias co="git checkout"
