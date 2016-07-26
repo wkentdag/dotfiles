@@ -19,6 +19,7 @@ alias server="python -m SimpleHTTPServer"
 alias t="echo ''; cd ~/launchpad/carlsbad/cache/default/main/GettyPublic/WORKAREA/wkentdaggett; ls -c1; echo '';"
 alias wifi="wifi-password"
 alias bitly="bitly-client"
+alias done="echo ''; lpass logout; mac sleep;"
 
 # git
 alias co="git checkout"
