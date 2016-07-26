@@ -36,6 +36,11 @@ alias d="git diff"
 alias branch="git branch"
 alias amend="git commit --amend -m"
 
+# copies password to clipboard
+function cpass() {
+  lpass show -p "$@" | pbcopy && echo '✓ copied'
+}
+
 # creates a new directory h/t http://bit.ly/2a9SPBi
 function mk() {
   mkdir -p "$@" && cd "$@"
