@@ -7,3 +7,4 @@ set expandtab
 set tabstop=2
 set encoding=utf-8 nobomb
 set textwidth=72
+set number

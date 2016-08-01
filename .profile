@@ -3,6 +3,7 @@ source ~/.git-completion.sh
 source ~/.git-prompt.sh
 eval "$(hub alias -s)"
 eval "$(thefuck --alias)"
+eval "$(rbenv init -)"
 
 # prompt
 PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
