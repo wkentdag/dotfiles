@@ -9,6 +9,7 @@ eval "$(rbenv init -)"
 PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
 
 # general
+alias no="noti"
 alias ls="ls -c1"
 alias la="ls -a"
 alias ll="ls -lahG"
