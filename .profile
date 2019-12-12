@@ -35,6 +35,7 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C
 alias d="git diff"
 alias branch="git branch"
 alias amend="git commit --amend -m"
+alias clone="git clone"
 
 # copies password to clipboard
 function cpass() {
