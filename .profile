@@ -33,7 +33,7 @@ alias push="git push"
 alias ri="git rebase -i"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias d="git diff"
-alias branch="git branch"
+alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
 
