@@ -37,9 +37,10 @@ alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
 
-# copies password to clipboard
-function cpass() {
-  lpass show -p "$@" | pbcopy && echo '✓ copied'
+# recursively list files in directory by type
+# https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
+function filestat() {
+  find "$@" -type f | sed 's/.*\.//' | sort | uniq -c
 }
 
 # creates a new directory h/t http://bit.ly/2a9SPBi
