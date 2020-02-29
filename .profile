@@ -19,7 +19,7 @@ alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
 alias wifi="wifi-password"
 alias bitly="bitly-client"
-alias done="echo ''; lpass logout; mac sleep;"
+alias hf="history | fzf"
 
 # git
 alias co="git checkout"
