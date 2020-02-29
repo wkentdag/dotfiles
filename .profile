@@ -48,6 +48,9 @@ function mk() {
   mkdir -p "$@" && cd "$@"
 }
 
+function 1pw() {
+  eval $(op signin hashicorp)
+}
 
 # squashes the current changes into the previous commit
 fixup() {
