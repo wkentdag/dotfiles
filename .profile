@@ -36,6 +36,7 @@ alias d="git diff"
 alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
+alias opr="hub pr show"
 
 # recursively list files in directory by type
 # https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
