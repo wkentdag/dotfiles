@@ -87,9 +87,17 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 export PGDATA='/usr/local/var/postgres'
 export PGHOST=localhost
 
+
+
+
 # Music
 flac2mp3() {
   FOLDER=$(dirname "$@")
-  FILENAME=$(basename "$@" .flac)
-  ffmpeg -i "$@" -ab 320k -map_metadata 0 -id3v2_version 3 "${FOLDER}/${FILENAME}.mp3"
+
+  for FILE in "$FOLDER"/*.flac
+  do
+    FILENAME=$(basename "$FILE" .flac)
+    echo "$FILENAME"	
+    ffmpeg -i "$FILE" -ab 320k -map_metadata 0 -id3v2_version 3 "${FOLDER}/${FILENAME}.mp3"
+  done
 }
