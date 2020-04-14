@@ -25,7 +25,6 @@ alias hf="history | fzf"
 alias co="git checkout"
 alias s="echo ''; git status -sb; echo ''"
 alias c="git commit"
-alias cm="fact; git commit -am"
 alias stage="git add "
 alias pull="git pull"
 alias pullr="git pull -r"
@@ -37,6 +36,7 @@ alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
 alias opr="hub pr show"
+alias compare="git compare"
 
 # recursively list files in directory by type
 # https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
