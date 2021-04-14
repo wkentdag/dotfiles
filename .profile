@@ -1,7 +1,6 @@
 # dependencies
 source ~/.git-completion.sh
 source ~/.git-prompt.sh
-eval "$(hub alias -s)"
 eval "$(thefuck --alias)"
 
 # prompt
@@ -35,7 +34,7 @@ alias d="git diff"
 alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
-alias opr="hub pr show"
+alias opr="gh pr view --web"
 alias compare="git compare"
 
 # recursively list files in directory by type
@@ -87,8 +86,10 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 export PGDATA='/usr/local/var/postgres'
 export PGHOST=localhost
 
-
-
+# go
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # Music
 flac2mp3() {
