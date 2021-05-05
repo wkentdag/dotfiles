@@ -35,7 +35,7 @@ alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
 alias opr="gh pr view --web"
-alias compare="git compare"
+alias compare="gh pr create --web"
 
 # recursively list files in directory by type
 # https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
