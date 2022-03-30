@@ -7,6 +7,7 @@ backup:
 	if [ -f ~/.hushlogin ]; then mv ~/.hushlogin ~/.hushlogin.bak; fi
 	if [ -f ~/.vimrc ]; then mv ~/.vimrc ~/.vimrc.bak; fi
 	if [ -f ~/.vim ]; then mv ~/.vim ~/.vim.bak; fi
+	if [ -f ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak; fi
 
 remove_backup:
 	if [ -f ~/.profile.bak ]; then rm ~/.profile.bak; fi
@@ -17,6 +18,7 @@ remove_backup:
 	if [ -f ~/.hushlogin.bak ]; then rm ~/.hushlogin.bak; fi
 	if [ -f ~/.vimrc.bak ]; then rm ~/.vimrc.bak; fi
 	if [ -f ~/.vim.bak ]; then rm ~/.vim.bak; fi
+	if [ -f ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi	
 
 install:
 	ln -s `pwd`/.profile ~/.profile
@@ -27,3 +29,4 @@ install:
 	ln -s `pwd`/.hushlogin ~/.hushlogin
 	ln -s `pwd`/.vimrc ~/.vimrc
 	ln -s `pwd`/.vim ~/.vim
+	ln -s `pwd`/.zshrc ~/.zshrc

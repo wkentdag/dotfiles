@@ -1,10 +1,12 @@
 # dependencies
-source ~/.git-completion.sh
-source ~/.git-prompt.sh
+# source ~/.git-completion.sh
+# source ~/.git-prompt.sh
 eval "$(thefuck --alias)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # prompt
-PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
+# PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
+PS1='⚡️ %~  ~ '
 
 # general
 alias no="notify"
