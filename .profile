@@ -15,12 +15,12 @@ alias la="ls -a"
 alias ll="ls -lahG"
 alias reload="exec $SHELL -l"
 alias profile="vim ~/.profile"
-alias p="echo ''; cd ~/code; ls -c1; echo '';"
+alias p="echo ''; cd ~/Documents/code; ls -c1; echo '';"
 alias desktop="cd ~/Desktop"
 alias server="python -m SimpleHTTPServer"
 alias wifi="wifi-password"
 alias bitly="bitly-client"
-alias hf="history | fzf"
+alias hf="history -10000 | fzf"
 
 # git
 alias co="git checkout"
@@ -92,6 +92,10 @@ export PGHOST=localhost
 export GOPATH=$HOME/go
 export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+
+# history
+export HISTSIZE=10000
 
 # Music
 flac2mp3() {
