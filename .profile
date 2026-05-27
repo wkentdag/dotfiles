@@ -108,3 +108,8 @@ flac2mp3() {
     ffmpeg -i "$FILE" -ab 320k -map_metadata 0 -id3v2_version 3 "${FOLDER}/${FILENAME}.mp3"
   done
 }
+
+starsync() {
+  FILE="${1:-$HOME/Desktop/sync.txt}"
+  rsync -azvPr --files-from="$FILE" stardust:files "$HOME/Music/Music/Media.localized/Music"
+}
