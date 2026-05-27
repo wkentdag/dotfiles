@@ -78,8 +78,8 @@ publish(){
 alias reload-deps="rm -rf node_modules && npm i"
 
 # autocomplete
-__git_complete co _git_checkout
-__git_complete push _git_push
+# __git_complete co _git_checkout
+# __git_complete push _git_push
 
 # iterm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
