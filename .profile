@@ -1,12 +1,19 @@
 # dependencies
-# source ~/.git-completion.sh
-# source ~/.git-prompt.sh
+source ~/.git-completion.sh
+source ~/.git-prompt.sh
 eval "$(thefuck --alias)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # prompt
-# PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
-PS1='⚡️ %~  ~ '
+if [[ -n "$ZSH_VERSION" ]]; then
+  setopt PROMPT_SUBST
+  export GIT_PS1_SHOWCOLORHINTS=1
+  precmd() {
+    __git_ps1 '⚡️ %F{red}${PWD:t}%f' ' ~ ' '@%s'
+  }
+else
+  PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
+fi
 
 # general
 alias no="notify"
@@ -78,8 +85,13 @@ publish(){
 alias reload-deps="rm -rf node_modules && npm i"
 
 # autocomplete
-# __git_complete co _git_checkout
-# __git_complete push _git_push
+if [[ -n "$ZSH_VERSION" ]]; then
+  compdef _git co
+  compdef _git push
+else
+  __git_complete co _git_checkout
+  __git_complete push _git_push
+fi
 
 # iterm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
