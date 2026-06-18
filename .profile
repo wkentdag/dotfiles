@@ -61,29 +61,6 @@ function 1pw() {
   eval $(op signin hashicorp)
 }
 
-# squashes the current changes into the previous commit
-fixup() {
-  local OC=`git rev-parse HEAD`
-  git add -A
-  git commit --fixup=$OC
-  git rebase -i --autosquash $OC~1
-}
-
-# pushes the branch you are on and opens compare on github for a PR
-pushpr() {
-  git push -u origin `git rev-parse --abbrev-ref HEAD`
-  git compare
-}
-
-# to be run after `npm version`, pushes tags, publishes, and opens release notes
-publish(){
-  push && push --tags && npm publish .
-  echo `git config --get remote.origin.url` | sed -e 's/\.git/\/releases/g' | echo "`cat -`/new?tag=`git describe`" | xargs open
-}
-
-# node
-alias reload-deps="rm -rf node_modules && npm i"
-
 # autocomplete
 if [[ -n "$ZSH_VERSION" ]]; then
   compdef _git co
