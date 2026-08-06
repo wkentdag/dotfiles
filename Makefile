@@ -8,18 +8,23 @@ backup:
 	if [ -f ~/.vimrc ]; then mv ~/.vimrc ~/.vimrc.bak; fi
 	if [ -f ~/.vim ]; then mv ~/.vim ~/.vim.bak; fi
 	if [ -f ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak; fi
+	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ]; then mv ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
+	if [ -e ~/.config/ghostty/config.ghostty ]; then mv ~/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config ]; then mv ~/.config/ghostty/config ~/.config/ghostty/config.bak; fi
 
 remove_backup:
 	if [ -f ~/.profile.bak ]; then rm ~/.profile.bak; fi
 	if [ -f ~/.bash_profile.bak ]; then rm ~/.bash_profile.bak; fi
 	if [ -f ~/.bashrc.bak ]; then rm ~/.bashrc.bak; fi
-	if [ -f ~/.git-completion.sh.bak ]; then rm completion.sh ~/.git-completion.sh.bak; fi
-	if [ -f ~/.git-prompt.sh.bak ]; then rm prompt.sh ~/.git-prompt.sh.bak; fi
+	if [ -f ~/.git-completion.sh.bak ]; then rm ~/.git-completion.sh.bak; fi
+	if [ -f ~/.git-prompt.sh.bak ]; then rm ~/.git-prompt.sh.bak; fi
 	if [ -f ~/.hushlogin.bak ]; then rm ~/.hushlogin.bak; fi
 	if [ -f ~/.vimrc.bak ]; then rm ~/.vimrc.bak; fi
 	if [ -f ~/.vim.bak ]; then rm ~/.vim.bak; fi
-	if [ -f ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi	
+	if [ -f ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi
+	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ]; then rm ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
+	if [ -e ~/.config/ghostty/config.ghostty.bak ]; then rm ~/.config/ghostty/config.ghostty.bak; fi
+	if [ -e ~/.config/ghostty/config.bak ]; then rm ~/.config/ghostty/config.bak; fi
 
 install:
 	ln -s `pwd`/.profile ~/.profile
@@ -32,5 +37,9 @@ install:
 	ln -s `pwd`/.vim ~/.vim
 	ln -s `pwd`/.zshrc ~/.zshrc
 
-	mkdir -p ~/.config/ghostty
-	ln -s `pwd`/ghostty/config ~/.config/ghostty/config
+	# Ghostty 1.2.3+ prefers config.ghostty; on macOS App Support is the
+	# preferred location and overrides ~/.config/ghostty when both exist.
+	mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty
+	ln -sf `pwd`/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty
+	# Remove empty/legacy XDG configs so they don't confuse tooling.
+	rm -f ~/.config/ghostty/config ~/.config/ghostty/config.ghostty

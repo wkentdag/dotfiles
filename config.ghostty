@@ -1,14 +1,15 @@
 # Typography
 font-family = Fira Code
-font-size = 13
+font-size = 15
 font-feature = liga
 font-feature = calt
 
 # Approximate the existing iTerm2 appearance
 background = #000000
 foreground = #bbbbbb
-background-opacity = 0.65
-background-blur = 5
+background-opacity = 0.55
+background-opacity-cells = true
+background-blur = 8
 
 cursor-color = #bbbbbb
 cursor-text = #ffffff
@@ -34,9 +35,8 @@ bell-features = attention,title
 # Your iTerm profile does not blink the cursor.
 cursor-style = block
 
-# Ctrl-Z toggles the quick terminal globally
+# Ctrl-Z toggles the quick terminal globally (requires Accessibility permission).
 keybind = global:ctrl+z=toggle_quick_terminal
-
-# Optional quick terminal configuration
 quick-terminal-position = top
-quick-terminal-size = 40%
+quick-terminal-size = 80%
+quick-terminal-animation-duration = 0.1
