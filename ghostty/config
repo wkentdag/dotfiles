@@ -1,0 +1,42 @@
+# Typography
+font-family = Fira Code
+font-size = 13
+font-feature = liga
+font-feature = calt
+
+# Approximate the existing iTerm2 appearance
+background = #000000
+foreground = #bbbbbb
+background-opacity = 0.65
+background-blur = 5
+
+cursor-color = #bbbbbb
+cursor-text = #ffffff
+cursor-style-blink = false
+
+selection-background = #b5d5ff
+selection-foreground = #000000
+
+# Existing iTerm profile has only 1,000 lines.
+# Ghostty measures this in bytes rather than lines, so 10 MB is a
+# reasonable modern replacement.
+scrollback-limit = 10485760
+
+# Let terminal apps such as tmux and Neovim use the mouse.
+mouse-reporting = true
+
+# Your iTerm config sends both Option keys normally rather than as Esc/Alt.
+macos-option-as-alt = false
+
+# Similar to iTerm's visual bell without adding a sound.
+bell-features = attention,title
+
+# Your iTerm profile does not blink the cursor.
+cursor-style = block
+
+# Ctrl-Z toggles the quick terminal globally
+keybind = global:ctrl+z=toggle_quick_terminal
+
+# Optional quick terminal configuration
+quick-terminal-position = top
+quick-terminal-size = 40%
