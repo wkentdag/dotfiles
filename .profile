@@ -1,8 +1,30 @@
 # dependencies
-source ~/.git-completion.sh
-source ~/.git-prompt.sh
-eval "$(thefuck --alias)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
+source ~/.git-prompt.sh
+if [[ -n "$ZSH_VERSION" ]]; then
+  # Use git's zsh wrapper; sourcing the bash script prints a deprecation warning.
+  _git_core=""
+  for _d in \
+    /Library/Developer/CommandLineTools/usr/share/git-core \
+    /Applications/Xcode.app/Contents/Developer/usr/share/git-core
+  do
+    if [[ -f "$_d/git-completion.zsh" && -f "$_d/git-completion.bash" ]]; then
+      _git_core="$_d"
+      break
+    fi
+  done
+  if [[ -n "$_git_core" ]]; then
+    mkdir -p "$HOME/.zsh"
+    ln -sf "$_git_core/git-completion.zsh" "$HOME/.zsh/_git"
+    fpath=("$HOME/.zsh" $fpath)
+    zstyle ':completion:*:*:git:*' script "$_git_core/git-completion.bash"
+    autoload -Uz compinit && compinit
+  fi
+  unset _git_core _d
+else
+  source ~/.git-completion.sh
+fi
+command -v thefuck >/dev/null && eval "$(thefuck --alias)"
 
 # prompt
 if [[ -n "$ZSH_VERSION" ]]; then
