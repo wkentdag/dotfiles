@@ -110,6 +110,9 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 # history
 export HISTSIZE=10000
 
+# cursor / agent
+export PATH="$HOME/.local/bin:$PATH"
+
 # Music
 flac2mp3() {
   FOLDER=$(dirname "$@")
