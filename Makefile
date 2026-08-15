@@ -8,6 +8,7 @@ backup:
 	if [ -e ~/.hushlogin ] || [ -L ~/.hushlogin ]; then mv ~/.hushlogin ~/.hushlogin.bak; fi
 	if [ -e ~/.vimrc ] || [ -L ~/.vimrc ]; then mv ~/.vimrc ~/.vimrc.bak; fi
 	if [ -e ~/.vim ] || [ -L ~/.vim ]; then mv ~/.vim ~/.vim.bak; fi
+	if [ -e ~/.tmux.conf ] || [ -L ~/.tmux.conf ]; then mv ~/.tmux.conf ~/.tmux.conf.bak; fi
 	if [ -e ~/.zshrc ] || [ -L ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak; fi
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ]; then mv ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty ] || [ -L ~/.config/ghostty/config.ghostty ]; then mv ~/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty.bak; fi
@@ -22,6 +23,7 @@ remove_backup:
 	if [ -e ~/.hushlogin.bak ] || [ -L ~/.hushlogin.bak ]; then rm ~/.hushlogin.bak; fi
 	if [ -e ~/.vimrc.bak ] || [ -L ~/.vimrc.bak ]; then rm ~/.vimrc.bak; fi
 	if [ -e ~/.vim.bak ] || [ -L ~/.vim.bak ]; then rm ~/.vim.bak; fi
+	if [ -e ~/.tmux.conf.bak ] || [ -L ~/.tmux.conf.bak ]; then rm ~/.tmux.conf.bak; fi
 	if [ -e ~/.zshrc.bak ] || [ -L ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ]; then rm ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty.bak ] || [ -L ~/.config/ghostty/config.ghostty.bak ]; then rm ~/.config/ghostty/config.ghostty.bak; fi
@@ -37,6 +39,7 @@ install:
 	ln -sf `pwd`/.hushlogin ~/.hushlogin
 	ln -sf `pwd`/.vimrc ~/.vimrc
 	ln -sf `pwd`/.vim ~/.vim
+	ln -sf `pwd`/.tmux.conf ~/.tmux.conf
 	ln -sf `pwd`/.zshrc ~/.zshrc
 
 	# Ghostty 1.2.3+ prefers config.ghostty; on macOS App Support is the
