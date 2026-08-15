@@ -96,10 +96,9 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # postgres
-export PGDATA='/usr/local/var/postgres'
+export PGDATA='/opt/homebrew/var/postgresql@16'
 export PGHOST=localhost
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 
 # go
 export GOPATH=$HOME/go
