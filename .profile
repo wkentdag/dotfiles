@@ -130,32 +130,12 @@ starsync() {
   rsync -azvPr --files-from="$FILE" stardust:files "$HOME/Music/Music/Media.localized/Music"
 }
 
-
-# npm
-# Node via nvm; pnpm via Corepack (reads packageManager from each repo's package.json).
-# Corepack is re-enabled after every `nvm use` so pnpm tracks the active Node version.
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-_corepack_enable() {
-  if command -v corepack; then
-    corepack enable
-  fi
-}
-
-# wrap nvm in a zsh-compatible way
-if [[ -n "$ZSH_VERSION" && -n "$functions[nvm]" ]]; then
-  functions[_nvm]="$functions[nvm]"
-  nvm() {
-    _nvm "$@"
-    local ret=$?
-    if [[ "$1" == "use" && $ret -eq 0 ]]; then
-      _corepack_enable
-    fi
-    return $ret
-  }
+# Load nvm last so it stays ahead of Homebrew and ~/.local/bin on PATH.
+_node_env="$HOME/.node-env"
+if [ ! -r "$_node_env" ] && [ -L "$HOME/.profile" ]; then
+  _profile_target=$(readlink "$HOME/.profile")
+  _node_env="${_profile_target%/*}/.node-env"
 fi
+[ -r "$_node_env" ] && source "$_node_env"
+unset _node_env _profile_target
 
-_corepack_enable

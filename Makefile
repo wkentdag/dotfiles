@@ -1,6 +1,7 @@
 backup:
 	# -e misses dangling symlinks; -L catches those (from a moved repo path).
 	if [ -e ~/.profile ] || [ -L ~/.profile ]; then mv ~/.profile ~/.profile.bak; fi
+	if [ -e ~/.node-env ] || [ -L ~/.node-env ]; then mv ~/.node-env ~/.node-env.bak; fi
 	if [ -e ~/.bash_profile ] || [ -L ~/.bash_profile ]; then mv ~/.bash_profile ~/.bash_profile.bak; fi
 	if [ -e ~/.bashrc ] || [ -L ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc.bak; fi
 	if [ -e ~/.git-completion.sh ] || [ -L ~/.git-completion.sh ]; then mv ~/.git-completion.sh ~/.git-completion.sh.bak; fi
@@ -10,12 +11,14 @@ backup:
 	if [ -e ~/.vim ] || [ -L ~/.vim ]; then mv ~/.vim ~/.vim.bak; fi
 	if [ -e ~/.tmux.conf ] || [ -L ~/.tmux.conf ]; then mv ~/.tmux.conf ~/.tmux.conf.bak; fi
 	if [ -e ~/.zshrc ] || [ -L ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak; fi
+	if [ -e ~/.zprofile ] || [ -L ~/.zprofile ]; then mv ~/.zprofile ~/.zprofile.bak; fi
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ]; then mv ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty ] || [ -L ~/.config/ghostty/config.ghostty ]; then mv ~/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config ] || [ -L ~/.config/ghostty/config ]; then mv ~/.config/ghostty/config ~/.config/ghostty/config.bak; fi
 
 remove_backup:
 	if [ -e ~/.profile.bak ] || [ -L ~/.profile.bak ]; then rm ~/.profile.bak; fi
+	if [ -e ~/.node-env.bak ] || [ -L ~/.node-env.bak ]; then rm ~/.node-env.bak; fi
 	if [ -e ~/.bash_profile.bak ] || [ -L ~/.bash_profile.bak ]; then rm ~/.bash_profile.bak; fi
 	if [ -e ~/.bashrc.bak ] || [ -L ~/.bashrc.bak ]; then rm ~/.bashrc.bak; fi
 	if [ -e ~/.git-completion.sh.bak ] || [ -L ~/.git-completion.sh.bak ]; then rm ~/.git-completion.sh.bak; fi
@@ -25,6 +28,7 @@ remove_backup:
 	if [ -e ~/.vim.bak ] || [ -L ~/.vim.bak ]; then rm ~/.vim.bak; fi
 	if [ -e ~/.tmux.conf.bak ] || [ -L ~/.tmux.conf.bak ]; then rm ~/.tmux.conf.bak; fi
 	if [ -e ~/.zshrc.bak ] || [ -L ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi
+	if [ -e ~/.zprofile.bak ] || [ -L ~/.zprofile.bak ]; then rm ~/.zprofile.bak; fi
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ]; then rm ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty.bak ] || [ -L ~/.config/ghostty/config.ghostty.bak ]; then rm ~/.config/ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.bak ] || [ -L ~/.config/ghostty/config.bak ]; then rm ~/.config/ghostty/config.bak; fi
@@ -32,6 +36,7 @@ remove_backup:
 
 install:
 	ln -sf `pwd`/.profile ~/.profile
+	ln -sf `pwd`/.node-env ~/.node-env
 	ln -sf `pwd`/.bash_profile ~/.bash_profile
 	ln -sf `pwd`/.bashrc ~/.bashrc
 	ln -sf `pwd`/.git-completion.sh ~/.git-completion.sh
@@ -41,6 +46,7 @@ install:
 	ln -sf `pwd`/.vim ~/.vim
 	ln -sf `pwd`/.tmux.conf ~/.tmux.conf
 	ln -sf `pwd`/.zshrc ~/.zshrc
+	ln -sf `pwd`/.zprofile ~/.zprofile
 
 	# Ghostty 1.2.3+ prefers config.ghostty; on macOS App Support is the
 	# preferred location and overrides ~/.config/ghostty when both exist.
