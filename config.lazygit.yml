@@ -1,0 +1,15 @@
+gui:
+  showFileTree: false
+  wrapLinesInStagingView: true
+  useHunkModeInStagingView: true
+  showRandomTip: false
+
+git:
+  diffRenderers:
+    - name: delta
+      command: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    - type: rawGit
+      name: default
+
+disableStartupPopups: true
+promptToReturnFromSubprocess: true

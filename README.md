@@ -8,6 +8,7 @@ My dotfiles. Simple, clean, and not forked from anyone else's bulky repos. Mostl
 
 - Clone this repo down into whatever folder you store your projects in
 - Make sure you have [hub](https://github.com/github/hub) installed, via `brew install hub`
+- Make sure you have [lazygit](https://github.com/jesseduffield/lazygit) and [git-delta](https://github.com/dandavison/delta) installed, via `brew install lazygit git-delta`
 - If you already have your own config files, you can back them up with `make backup`. This will rename them and put `.bak` at the end
 - Run `make install`
 - If you are entirely satisfied with all the new settings and want to permanently remove your old settings, you can run `make remove_backup`

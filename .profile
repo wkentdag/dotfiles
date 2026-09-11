@@ -66,6 +66,7 @@ alias b="git branch"
 alias amend="git commit --amend -m"
 alias clone="git clone"
 alias opr="gh pr view --web"
+alias lg="lazygit"
 compare() { gh pr create --web --base "${1:-main}"; }
 pushn() { git push --set-upstream origin "$(git branch --show-current)"; }
 

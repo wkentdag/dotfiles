@@ -15,6 +15,7 @@ backup:
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ]; then mv ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty ] || [ -L ~/.config/ghostty/config.ghostty ]; then mv ~/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config ] || [ -L ~/.config/ghostty/config ]; then mv ~/.config/ghostty/config ~/.config/ghostty/config.bak; fi
+	if [ -e ~/.config/lazygit/config.yml ] || [ -L ~/.config/lazygit/config.yml ]; then mv ~/.config/lazygit/config.yml ~/.config/lazygit/config.yml.bak; fi
 
 remove_backup:
 	if [ -e ~/.profile.bak ] || [ -L ~/.profile.bak ]; then rm ~/.profile.bak; fi
@@ -32,6 +33,7 @@ remove_backup:
 	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ]; then rm ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.ghostty.bak ] || [ -L ~/.config/ghostty/config.ghostty.bak ]; then rm ~/.config/ghostty/config.ghostty.bak; fi
 	if [ -e ~/.config/ghostty/config.bak ] || [ -L ~/.config/ghostty/config.bak ]; then rm ~/.config/ghostty/config.bak; fi
+	if [ -e ~/.config/lazygit/config.yml.bak ] || [ -L ~/.config/lazygit/config.yml.bak ]; then rm ~/.config/lazygit/config.yml.bak; fi
 
 
 install:
@@ -54,3 +56,6 @@ install:
 	ln -sf `pwd`/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty
 	# Remove empty/legacy XDG configs so they don't confuse tooling.
 	rm -f ~/.config/ghostty/config ~/.config/ghostty/config.ghostty
+
+	mkdir -p ~/.config/lazygit
+	ln -sf `pwd`/config.lazygit.yml ~/.config/lazygit/config.yml
