@@ -67,6 +67,7 @@ alias amend="git commit --amend -m"
 alias clone="git clone"
 alias opr="gh pr view --web"
 compare() { gh pr create --web --base "${1:-main}"; }
+pushn() { git push --set-upstream origin "$(git branch --show-current)"; }
 
 # recursively list files in directory by type
 # https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
@@ -80,7 +81,7 @@ function mk() {
 }
 
 function 1pw() {
-  eval $(op signin hashicorp)
+  eval $(op signin)
 }
 
 # autocomplete
