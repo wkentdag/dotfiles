@@ -1,0 +1,30 @@
+# Shared Node environment for interactive shells and non-interactive login shells.
+if [ -n "${DOTFILES_NODE_ENV_LOADED:-}" ]; then
+  return
+fi
+export DOTFILES_NODE_ENV_LOADED=1
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -n "${BASH_VERSION:-}" ] && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+_corepack_enable() {
+  if command -v corepack >/dev/null 2>&1; then
+    corepack enable >/dev/null 2>&1
+  fi
+}
+
+# Keep Corepack shims in sync when changing Node versions in zsh.
+if [ -n "${ZSH_VERSION:-}" ] && [ -n "${functions[nvm]:-}" ]; then
+  functions[_nvm]="$functions[nvm]"
+  nvm() {
+    _nvm "$@"
+    local ret=$?
+    if [ "$1" = "use" ] && [ $ret -eq 0 ]; then
+      _corepack_enable
+    fi
+    return $ret
+  }
+fi
+
+_corepack_enable
