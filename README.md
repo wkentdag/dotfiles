@@ -16,6 +16,7 @@ My dotfiles. Simple, clean, and not forked from anyone else's bulky repos. Mostl
 
 - Go back into this project
 - Run `git pull`
+- Run `make install` (this creates new symlinks; it is safe to run again)
 - Run `reload`
 - You're up to date
 

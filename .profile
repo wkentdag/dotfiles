@@ -1,11 +1,4 @@
 # dependencies
-_node_env="$HOME/.node-env"
-if [ ! -r "$_node_env" ] && [ -L "$HOME/.profile" ]; then
-  _profile_target=$(readlink "$HOME/.profile")
-  _node_env="${_profile_target%/*}/.node-env"
-fi
-[ -r "$_node_env" ] && source "$_node_env"
-unset _node_env _profile_target
 eval "$(/opt/homebrew/bin/brew shellenv)"
 source ~/.git-prompt.sh
 if [[ -n "$ZSH_VERSION" ]]; then
@@ -135,3 +128,13 @@ starsync() {
   FILE="${1:-$HOME/Desktop/sync.txt}"
   rsync -azvPr --files-from="$FILE" stardust:files "$HOME/Music/Music/Media.localized/Music"
 }
+
+# Load nvm last so it stays ahead of Homebrew and ~/.local/bin on PATH.
+_node_env="$HOME/.node-env"
+if [ ! -r "$_node_env" ] && [ -L "$HOME/.profile" ]; then
+  _profile_target=$(readlink "$HOME/.profile")
+  _node_env="${_profile_target%/*}/.node-env"
+fi
+[ -r "$_node_env" ] && source "$_node_env"
+unset _node_env _profile_target
+
