@@ -70,6 +70,103 @@ alias lg="lazygit"
 compare() { gh pr create --web --base "${1:-main}"; }
 pushn() { git push --set-upstream origin "$(git branch --show-current)"; }
 
+# List extra worktrees: folder, branch, KEEP/SAFE. Prints remove commands for SAFE ones.
+worktree-inventory() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "not a git repository" >&2
+    return 1
+  fi
+
+  local main rows wt folder branch dirty upstream unpushed kind reason
+  local red green yellow reset
+  local remove_cmd="" count=0
+
+  if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+    red=$'\033[31m'
+    green=$'\033[32m'
+    yellow=$'\033[33m'
+    reset=$'\033[0m'
+  else
+    red="" green="" yellow="" reset=""
+  fi
+
+  main="$(git rev-parse --show-toplevel)" || return
+
+  while IFS= read -r wt; do
+    [ -n "$wt" ] || continue
+    [ "$wt" = "$main" ] && continue
+
+    folder="${wt##*/}"
+    branch="$(git -C "$wt" rev-parse --abbrev-ref HEAD)"
+    dirty="$(git -C "$wt" status --porcelain)"
+    upstream="$(git -C "$wt" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || true)"
+
+    if [ -n "$dirty" ]; then
+      kind=KEEP
+      reason="uncommitted changes"
+    elif [ -z "$upstream" ]; then
+      kind=KEEP
+      reason="no upstream"
+    else
+      unpushed="$(git -C "$wt" rev-list --count '@{u}'..HEAD)"
+      if [ "$unpushed" -gt 0 ]; then
+        kind=KEEP
+        reason="${unpushed} unpushed commit(s)"
+      else
+        kind=SAFE
+        reason="clean and pushed"
+        remove_cmd="${remove_cmd}git worktree remove -- $(printf '%q' "$wt")"$'\n'
+      fi
+    fi
+
+    rows="${rows}${folder}"$'\t'"${branch}"$'\t'"${kind}"$'\t'"${reason}"$'\n'
+    count=$((count + 1))
+  done <<EOF
+$(git worktree list --porcelain | sed -n 's/^worktree //p')
+EOF
+
+  echo ""
+  if [ "$count" -eq 0 ]; then
+    echo "no extra worktrees"
+    echo ""
+    return 0
+  fi
+
+  printf '%s' "$rows" | awk -F '\t' -v red="$red" -v green="$green" -v yellow="$yellow" -v reset="$reset" '
+    {
+      f[NR] = $1
+      b[NR] = $2
+      k[NR] = $3
+      r[NR] = $4
+      if (length($1) > wf) wf = length($1)
+      if (length($2) > wb) wb = length($2)
+    }
+    END {
+      if (length("folder") > wf) wf = length("folder")
+      if (length("branch") > wb) wb = length("branch")
+      printf "%-*s  %-*s  %s\n", wf, "folder", wb, "branch", "status"
+      for (i = 1; i <= NR; i++) {
+        fc = red
+        bc = (b[i] == "HEAD") ? red : green
+        if (k[i] == "SAFE") sc = green
+        else if (r[i] == "uncommitted changes") sc = red
+        else sc = yellow
+        printf "%s%-*s%s  %s%-*s%s  %s%s%s  %s\n", \
+          fc, wf, f[i], reset, bc, wb, b[i], reset, sc, k[i], reset, r[i]
+      }
+    }
+  '
+
+  echo ""
+  if [ -n "$remove_cmd" ]; then
+    echo "# Run from the main worktree to remove SAFE worktrees:"
+    printf '%s' "$remove_cmd"
+  else
+    echo "no SAFE worktrees"
+  fi
+  echo ""
+}
+
 # recursively list files in directory by type
 # https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
 function filestat() {
