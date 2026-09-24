@@ -9,6 +9,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -n "${BASH_VERSION:-}" ] && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# nvm keeps an existing NVM path in place. Move the active version ahead of Homebrew.
+if [ -n "${NVM_BIN:-}" ]; then
+  PATH="$(nvm_strip_path "$PATH" "/bin")"
+  export PATH="$NVM_BIN${PATH:+:$PATH}"
+fi
+
 _corepack_enable() {
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1
