@@ -13,6 +13,23 @@ My dotfiles. Simple, clean, and not forked from anyone else's bulky repos. Mostl
 - Run `make install`
 - If you are entirely satisfied with all the new settings and want to permanently remove your old settings, you can run `make remove_backup`
 
+### Codex preferences
+
+`make install` links `.codex/config.toml` to `~/.codex/config.toml`.
+To install only Codex preferences, run `make install-codex`.
+
+```toml
+[tui]
+alternate_screen = "never"
+```
+
+This setting preserves terminal scrollback. See the [Codex configuration guide](https://learn.chatgpt.com/docs/config-file/config-advanced#tui-options).
+The installer moves an existing config to `~/.codex/config.toml.bak` before it
+creates the link. It stops if that backup already exists. Other files in
+`~/.codex`, such as credentials and sessions, stay in place.
+Copy any settings you want to keep from the backup into `.codex/config.toml`.
+Do not add credentials to this file. Restart Codex to apply the setting.
+
 ### Updating
 
 - Go back into this project

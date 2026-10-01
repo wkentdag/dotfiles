@@ -1,4 +1,5 @@
 backup:
+	if [ -e ~/.codex/config.toml ] || [ -L ~/.codex/config.toml ]; then mv ~/.codex/config.toml ~/.codex/config.toml.bak; fi
 	# -e misses dangling symlinks; -L catches those (from a moved repo path).
 	if [ -e ~/.profile ] || [ -L ~/.profile ]; then mv ~/.profile ~/.profile.bak; fi
 	if [ -e ~/.node-env ] || [ -L ~/.node-env ]; then mv ~/.node-env ~/.node-env.bak; fi
@@ -18,6 +19,7 @@ backup:
 	if [ -e ~/.config/lazygit/config.yml ] || [ -L ~/.config/lazygit/config.yml ]; then mv ~/.config/lazygit/config.yml ~/.config/lazygit/config.yml.bak; fi
 
 remove_backup:
+	if [ -e ~/.codex/config.toml.bak ] || [ -L ~/.codex/config.toml.bak ]; then rm ~/.codex/config.toml.bak; fi
 	if [ -e ~/.profile.bak ] || [ -L ~/.profile.bak ]; then rm ~/.profile.bak; fi
 	if [ -e ~/.node-env.bak ] || [ -L ~/.node-env.bak ]; then rm ~/.node-env.bak; fi
 	if [ -e ~/.bash_profile.bak ] || [ -L ~/.bash_profile.bak ]; then rm ~/.bash_profile.bak; fi
@@ -36,7 +38,7 @@ remove_backup:
 	if [ -e ~/.config/lazygit/config.yml.bak ] || [ -L ~/.config/lazygit/config.yml.bak ]; then rm ~/.config/lazygit/config.yml.bak; fi
 
 
-install:
+install: install-codex
 	ln -sf `pwd`/.profile ~/.profile
 	ln -sf `pwd`/.node-env ~/.node-env
 	ln -sf `pwd`/.bash_profile ~/.bash_profile
@@ -59,3 +61,16 @@ install:
 
 	mkdir -p ~/.config/lazygit
 	ln -sf `pwd`/config.lazygit.yml ~/.config/lazygit/config.yml
+
+.PHONY: install-codex
+install-codex:
+	mkdir -p ~/.codex
+	@if [ -e ~/.codex/config.toml ] || [ -L ~/.codex/config.toml ]; then \
+		if [ "`readlink ~/.codex/config.toml`" != "$(CURDIR)/.codex/config.toml" ]; then \
+			if [ -e ~/.codex/config.toml.bak ] || [ -L ~/.codex/config.toml.bak ]; then \
+				echo "Codex backup already exists: ~/.codex/config.toml.bak"; exit 1; \
+			fi; \
+			mv ~/.codex/config.toml ~/.codex/config.toml.bak; \
+		fi; \
+	fi
+	ln -sf "$(CURDIR)/.codex/config.toml" ~/.codex/config.toml
