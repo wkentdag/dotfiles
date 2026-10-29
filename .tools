@@ -1,0 +1,9 @@
+# Optional command correction
+command -v thefuck >/dev/null && eval "$(thefuck --alias)"
+
+function 1pw() {
+  eval $(op signin)
+}
+
+# cursor / agent
+export PATH="$HOME/.local/bin:$PATH"

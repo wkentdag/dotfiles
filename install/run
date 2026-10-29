@@ -1,0 +1,145 @@
+#!/bin/bash
+set -e
+
+repo=$(cd "$(dirname "$0")/.." && pwd)
+target=${DOTFILES_TARGET:-$HOME}
+action=${1:-install}
+available=()
+selected=()
+modules=()
+login_modules=()
+sources=()
+destinations=()
+
+for manifest in "$repo"/install/modules/*; do
+  name=${manifest##*/}
+  available+=("${name#*-}")
+done
+if [ "$action" = list ]; then
+  printf '%s\n' "${available[@]}"
+  exit
+fi
+case "$action" in
+  install|backup|remove_backup) ;;
+  *) printf 'Unknown action: %s\n' "$action" >&2; exit 1 ;;
+esac
+
+if [ -z "${MODULES+x}" ]; then
+  selected=("${available[@]}")
+else
+  read -r -a selected <<< "$MODULES"
+fi
+if [ "${#selected[@]}" -eq 0 ]; then
+  printf 'Select at least one module. Run make list-modules.\n' >&2
+  exit 1
+fi
+for name in "${selected[@]}"; do
+  found=false
+  for module in "${available[@]}"; do
+    [ "$name" != "$module" ] || found=true
+  done
+  if [ "$found" = false ]; then
+    printf 'Unknown module: %s. Run make list-modules.\n' "$name" >&2
+    exit 1
+  fi
+done
+
+read_manifest() {
+  local kind entry source destination
+  while IFS=' ' read -r kind entry || [ -n "$kind" ]; do
+    case "$kind" in
+      ''|'#'*) continue ;;
+      retire) sources+=(""); destinations+=("$target/$entry"); continue ;;
+      profile) modules+=("$entry") ;;
+      login) modules+=("$entry"); login_modules+=("$entry") ;;
+      link) ;;
+      *) printf 'Unknown manifest entry: %s\n' "$kind" >&2; exit 1 ;;
+    esac
+    source=${entry%%|*}
+    destination=${entry#*|}
+    sources+=("$repo/$source")
+    destinations+=("$target/$destination")
+  done < "$1"
+}
+
+# File names set the load order, regardless of the order in MODULES.
+for manifest in "$repo"/install/modules/*; do
+  name=${manifest##*/}
+  for module in "${selected[@]}"; do
+    if [ "${name#*-}" = "$module" ]; then
+      read_manifest "$manifest"
+      break
+    fi
+  done
+done
+if [ "${#modules[@]}" -gt 0 ]; then
+  read_manifest "$repo/install/common"
+fi
+
+exists() {
+  # -e misses dangling symlinks; -L catches those (from a moved repo path).
+  [ -e "$1" ] || [ -L "$1" ]
+}
+backup() {
+  if exists "$1"; then
+    mv "$1" "$1.bak"
+    printf 'Backup: %s.bak\n' "$1"
+  fi
+}
+
+if [ "$action" != install ] && [ "${#modules[@]}" -gt 0 ]; then
+  sources+=("" "")
+  destinations+=("$target/.profile-modules" "$target/.profile-login")
+fi
+
+if [ "$action" = remove_backup ]; then
+  for destination in "${destinations[@]}"; do
+    if exists "$destination.bak"; then
+      rm -r -- "$destination.bak"
+    fi
+  done
+  exit
+fi
+
+# Check all backup conflicts and source paths before changing any files.
+for ((i=0; i<${#sources[@]}; i++)); do
+  source=${sources[i]}
+  destination=${destinations[i]}
+  if [ "$action" = install ]; then
+    if [ -n "$source" ] && ! exists "$source"; then
+      printf 'Source does not exist: %s\n' "$source" >&2
+      exit 1
+    fi
+    if [ -L "$destination" ] && [ "$(readlink "$destination")" = "$source" ]; then
+      continue
+    fi
+  fi
+  if exists "$destination" && exists "$destination.bak"; then
+    printf 'Backup already exists: %s.bak\n' "$destination" >&2
+    exit 1
+  fi
+done
+
+for ((i=0; i<${#sources[@]}; i++)); do
+  source=${sources[i]}
+  destination=${destinations[i]}
+  if [ "$action" = backup ]; then
+    backup "$destination"
+    continue
+  fi
+  if [ -L "$destination" ] && [ "$(readlink "$destination")" = "$source" ]; then
+    continue
+  fi
+  backup "$destination"
+  if [ -n "$source" ]; then
+    mkdir -p "$(dirname "$destination")"
+    ln -s "$source" "$destination"
+  fi
+done
+if [ "$action" = install ]; then
+  if [ "${#modules[@]}" -gt 0 ]; then
+    printf '%s\n' "${modules[@]}" > "$target/.profile-modules"
+    printf '%s\n' "${login_modules[@]}" > "$target/.profile-login"
+  fi
+  printf 'Installed modules: %s\n' "${selected[*]}"
+fi

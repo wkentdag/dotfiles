@@ -1,0 +1,7 @@
+# Ghostty 1.2.3+ prefers config.ghostty; on macOS App Support is the
+# preferred location and overrides ~/.config/ghostty when both exist.
+link config.ghostty|Library/Application Support/com.mitchellh.ghostty/config.ghostty
+# Save legacy configs so they do not override the selected config.
+retire Library/Application Support/com.mitchellh.ghostty/config
+retire .config/ghostty/config
+retire .config/ghostty/config.ghostty

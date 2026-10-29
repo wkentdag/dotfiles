@@ -1,0 +1,20 @@
+# Use the Git prompt when Git and its prompt script are available.
+if command -v git >/dev/null 2>&1 && [ -r "$HOME/.git-prompt.sh" ]; then
+  source "$HOME/.git-prompt.sh"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    setopt PROMPT_SUBST
+    export GIT_PS1_SHOWCOLORHINTS=1
+    precmd() {
+      __git_ps1 '⚡️ %F{red}${PWD:t}%f' ' ~ ' '@%s'
+    }
+  else
+    PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\]$(__git_ps1 "@\[\e[0;33m\]%s\[\e[m\]") ~ '
+  fi
+elif [[ -n "$ZSH_VERSION" ]]; then
+  precmd() {
+    PROMPT='⚡️ %F{red}%1~%f ~ '
+  }
+  precmd
+else
+  PS1='⚡️ \[\e[0;31m\]${PWD##*/}\[\e[m\] ~ '
+fi

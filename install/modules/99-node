@@ -1,0 +1,2 @@
+# Load nvm last so it stays ahead of Homebrew and ~/.local/bin on PATH.
+login .node-env

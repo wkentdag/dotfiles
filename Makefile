@@ -1,76 +1,16 @@
-backup:
-	if [ -e ~/.codex/config.toml ] || [ -L ~/.codex/config.toml ]; then mv ~/.codex/config.toml ~/.codex/config.toml.bak; fi
-	# -e misses dangling symlinks; -L catches those (from a moved repo path).
-	if [ -e ~/.profile ] || [ -L ~/.profile ]; then mv ~/.profile ~/.profile.bak; fi
-	if [ -e ~/.node-env ] || [ -L ~/.node-env ]; then mv ~/.node-env ~/.node-env.bak; fi
-	if [ -e ~/.bash_profile ] || [ -L ~/.bash_profile ]; then mv ~/.bash_profile ~/.bash_profile.bak; fi
-	if [ -e ~/.bashrc ] || [ -L ~/.bashrc ]; then mv ~/.bashrc ~/.bashrc.bak; fi
-	if [ -e ~/.git-completion.sh ] || [ -L ~/.git-completion.sh ]; then mv ~/.git-completion.sh ~/.git-completion.sh.bak; fi
-	if [ -e ~/.git-prompt.sh ] || [ -L ~/.git-prompt.sh ]; then mv ~/.git-prompt.sh ~/.git-prompt.sh.bak; fi
-	if [ -e ~/.hushlogin ] || [ -L ~/.hushlogin ]; then mv ~/.hushlogin ~/.hushlogin.bak; fi
-	if [ -e ~/.vimrc ] || [ -L ~/.vimrc ]; then mv ~/.vimrc ~/.vimrc.bak; fi
-	if [ -e ~/.vim ] || [ -L ~/.vim ]; then mv ~/.vim ~/.vim.bak; fi
-	if [ -e ~/.tmux.conf ] || [ -L ~/.tmux.conf ]; then mv ~/.tmux.conf ~/.tmux.conf.bak; fi
-	if [ -e ~/.zshrc ] || [ -L ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak; fi
-	if [ -e ~/.zprofile ] || [ -L ~/.zprofile ]; then mv ~/.zprofile ~/.zprofile.bak; fi
-	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ]; then mv ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
-	if [ -e ~/.config/ghostty/config.ghostty ] || [ -L ~/.config/ghostty/config.ghostty ]; then mv ~/.config/ghostty/config.ghostty ~/.config/ghostty/config.ghostty.bak; fi
-	if [ -e ~/.config/ghostty/config ] || [ -L ~/.config/ghostty/config ]; then mv ~/.config/ghostty/config ~/.config/ghostty/config.bak; fi
-	if [ -e ~/.config/lazygit/config.yml ] || [ -L ~/.config/lazygit/config.yml ]; then mv ~/.config/lazygit/config.yml ~/.config/lazygit/config.yml.bak; fi
+# With no MODULES value, install every module in install/modules.
+ifneq ($(origin MODULES),undefined)
+export MODULES
+endif
+export DOTFILES_TARGET
 
-remove_backup:
-	if [ -e ~/.codex/config.toml.bak ] || [ -L ~/.codex/config.toml.bak ]; then rm ~/.codex/config.toml.bak; fi
-	if [ -e ~/.profile.bak ] || [ -L ~/.profile.bak ]; then rm ~/.profile.bak; fi
-	if [ -e ~/.node-env.bak ] || [ -L ~/.node-env.bak ]; then rm ~/.node-env.bak; fi
-	if [ -e ~/.bash_profile.bak ] || [ -L ~/.bash_profile.bak ]; then rm ~/.bash_profile.bak; fi
-	if [ -e ~/.bashrc.bak ] || [ -L ~/.bashrc.bak ]; then rm ~/.bashrc.bak; fi
-	if [ -e ~/.git-completion.sh.bak ] || [ -L ~/.git-completion.sh.bak ]; then rm ~/.git-completion.sh.bak; fi
-	if [ -e ~/.git-prompt.sh.bak ] || [ -L ~/.git-prompt.sh.bak ]; then rm ~/.git-prompt.sh.bak; fi
-	if [ -e ~/.hushlogin.bak ] || [ -L ~/.hushlogin.bak ]; then rm ~/.hushlogin.bak; fi
-	if [ -e ~/.vimrc.bak ] || [ -L ~/.vimrc.bak ]; then rm ~/.vimrc.bak; fi
-	if [ -e ~/.vim.bak ] || [ -L ~/.vim.bak ]; then rm ~/.vim.bak; fi
-	if [ -e ~/.tmux.conf.bak ] || [ -L ~/.tmux.conf.bak ]; then rm ~/.tmux.conf.bak; fi
-	if [ -e ~/.zshrc.bak ] || [ -L ~/.zshrc.bak ]; then rm ~/.zshrc.bak; fi
-	if [ -e ~/.zprofile.bak ] || [ -L ~/.zprofile.bak ]; then rm ~/.zprofile.bak; fi
-	if [ -e ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ] || [ -L ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak ]; then rm ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty.bak; fi
-	if [ -e ~/.config/ghostty/config.ghostty.bak ] || [ -L ~/.config/ghostty/config.ghostty.bak ]; then rm ~/.config/ghostty/config.ghostty.bak; fi
-	if [ -e ~/.config/ghostty/config.bak ] || [ -L ~/.config/ghostty/config.bak ]; then rm ~/.config/ghostty/config.bak; fi
-	if [ -e ~/.config/lazygit/config.yml.bak ] || [ -L ~/.config/lazygit/config.yml.bak ]; then rm ~/.config/lazygit/config.yml.bak; fi
+.PHONY: backup remove_backup install list-modules install-codex
+backup remove_backup install:
+	bash "$(CURDIR)/install/run" $@
 
+list-modules:
+	bash "$(CURDIR)/install/run" list
 
-install: install-codex
-	ln -sf `pwd`/.profile ~/.profile
-	ln -sf `pwd`/.node-env ~/.node-env
-	ln -sf `pwd`/.bash_profile ~/.bash_profile
-	ln -sf `pwd`/.bashrc ~/.bashrc
-	ln -sf `pwd`/.git-completion.sh ~/.git-completion.sh
-	ln -sf `pwd`/.git-prompt.sh ~/.git-prompt.sh
-	ln -sf `pwd`/.hushlogin ~/.hushlogin
-	ln -sf `pwd`/.vimrc ~/.vimrc
-	ln -sf `pwd`/.vim ~/.vim
-	ln -sf `pwd`/.tmux.conf ~/.tmux.conf
-	ln -sf `pwd`/.zshrc ~/.zshrc
-	ln -sf `pwd`/.zprofile ~/.zprofile
-
-	# Ghostty 1.2.3+ prefers config.ghostty; on macOS App Support is the
-	# preferred location and overrides ~/.config/ghostty when both exist.
-	mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty
-	ln -sf `pwd`/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty
-	# Remove empty/legacy XDG configs so they don't confuse tooling.
-	rm -f ~/.config/ghostty/config ~/.config/ghostty/config.ghostty
-
-	mkdir -p ~/.config/lazygit
-	ln -sf `pwd`/config.lazygit.yml ~/.config/lazygit/config.yml
-
-.PHONY: install-codex
+# Keep the existing command for installing only Codex preferences.
 install-codex:
-	mkdir -p ~/.codex
-	@if [ -e ~/.codex/config.toml ] || [ -L ~/.codex/config.toml ]; then \
-		if [ "`readlink ~/.codex/config.toml`" != "$(CURDIR)/.codex/config.toml" ]; then \
-			if [ -e ~/.codex/config.toml.bak ] || [ -L ~/.codex/config.toml.bak ]; then \
-				echo "Codex backup already exists: ~/.codex/config.toml.bak"; exit 1; \
-			fi; \
-			mv ~/.codex/config.toml ~/.codex/config.toml.bak; \
-		fi; \
-	fi
-	ln -sf "$(CURDIR)/.codex/config.toml" ~/.codex/config.toml
+	MODULES=codex bash "$(CURDIR)/install/run" install

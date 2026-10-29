@@ -1,0 +1,6 @@
+link .profile
+link .bash_profile
+link .bashrc
+link .zshrc
+link .zprofile
+link .hushlogin

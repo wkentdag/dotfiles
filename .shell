@@ -1,0 +1,27 @@
+# general
+alias no="notify"
+alias ls="ls -c1"
+alias la="ls -a"
+alias ll="ls -lahG"
+alias reload="exec $SHELL -l"
+alias profile="vim ~/.profile"
+alias p="echo ''; cd ~/Documents/code; ls -c1; echo '';"
+alias desktop="cd ~/Desktop"
+alias server="python -m SimpleHTTPServer"
+alias wifi="wifi-password"
+alias bitly="bitly-client"
+alias hf="history -10000 | fzf"
+
+# recursively list files in directory by type
+# https://unix.stackexchange.com/questions/18506/recursive-statistics-on-file-types-in-directory
+function filestat() {
+  find "$@" -type f | sed 's/.*\.//' | sort | uniq -c
+}
+
+# creates a new directory h/t http://bit.ly/2a9SPBi
+function mk() {
+  mkdir -p "$@" && cd "$@"
+}
+
+# history
+export HISTSIZE=10000

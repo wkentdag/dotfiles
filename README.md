@@ -13,6 +13,124 @@ My dotfiles. Simple, clean, and not forked from anyone else's bulky repos. Mostl
 - Run `make install`
 - If you are entirely satisfied with all the new settings and want to permanently remove your old settings, you can run `make remove_backup`
 
+### Select modules
+
+Run `make install` to install every module. To select modules, use:
+
+```sh
+make install MODULES="music ghostty"
+make install MODULES="homebrew shell prompt music ghostty"
+make list-modules
+```
+
+The first command installs the music utilities and Ghostty config.
+The second also installs Homebrew setup, general shell utilities, and the prompt.
+The prompt works without Git. The installer does not install packages or check
+command dependencies.
+
+A shell module also installs the shared Bash and zsh startup files. The installer
+backs up existing files with a `.bak` suffix before replacing them. It stops if
+a required backup already exists. Links that already point to this repo stay
+in place.
+
+Each shell installation replaces the selection of active shell modules.
+Old module links stay in place, but inactive modules are not loaded.
+An installation with only app modules, such as `ghostty`, keeps the current shell
+selection. Run `make install` without `MODULES` to enable all modules again.
+
+Use the same selection when you update:
+
+```sh
+make install MODULES="music ghostty"
+```
+
+The backup commands also accept `MODULES`:
+
+```sh
+make backup MODULES="music ghostty"
+make remove_backup MODULES="music ghostty"
+```
+
+`remove_backup` permanently removes the selected backups.
+
+### Profile modules
+
+`.profile` loads the dotfiles listed in `~/.profile-modules`.
+The installer writes this list in load order. It also writes
+`~/.profile-login` for modules needed by non-interactive zsh login shells.
+Node loads last, as before.
+
+| Module | Dotfile | Contents |
+| --- | --- | --- |
+| homebrew | `.homebrew` | Homebrew environment |
+| git | `.git-aliases` | Git aliases, completion, worktree utility |
+| prompt | `.prompt` | Bash and zsh prompts, with a fallback without Git |
+| shell | `.shell` | General aliases, directory utilities, history |
+| iterm | `.iterm` | iTerm shell integration |
+| postgres | `.postgres` | PostgreSQL environment |
+| go | `.go` | Go environment |
+| tools | `.tools` | Command correction, 1Password helper, local executable path |
+| music | `.music` | `flac2mp3` and `starsync` |
+| node | `.node-env` | Node and nvm environment |
+
+The other modules are `vim`, `tmux`, `ghostty`, `lazygit`, and `codex`.
+
+### Add a module
+
+Create the dotfile and a module file. For example, add `.example` and
+`install/modules/85-example` with this content:
+
+```text
+profile .example
+```
+
+The installer discovers the new module automatically. Run
+`make install MODULES="example"` to select it. No installer or loader changes
+are needed. The numeric prefix sets load order. Keep Node last.
+
+Module files support these entries:
+
+| Entry | Effect |
+| --- | --- |
+| `profile .example` | Link the dotfile and load it from `.profile` |
+| `login .example` | Also load it in non-interactive zsh login shells |
+| `link .example` | Link a file or directory without loading it |
+| `link source\|destination` | Link a repo path to a different path under the home directory |
+| `retire destination` | Move an old config to a `.bak` file |
+
+Paths are relative to the repo or home directory. Use literal paths, without
+shell quotes or variables. Lines that start with `#` are comments.
+
+### Host Mac installation
+
+From a copy of this repo on the host Mac, run:
+
+```sh
+brew install ffmpeg
+brew install --cask ghostty font-fira-code
+make install MODULES="homebrew shell prompt music ghostty"
+```
+
+Homebrew must already be installed. Open a new terminal after installation.
+Keep the repo at the same path so the links stay valid.
+
+```sh
+# Convert all FLAC files beside the given file to 320 kbps MP3 files.
+flac2mp3 "$HOME/Music/Album/Track.flac"
+
+# Copy the files listed in ~/Desktop/sync.txt from stardust.
+starsync
+
+# Use a different list of files.
+starsync "$HOME/Desktop/other-sync.txt"
+```
+
+`starsync` needs `rsync`, SSH access to `stardust`, and a list of paths relative
+to `stardust:files`. Set up the SSH connection on the host Mac separately.
+The destination is `~/Music/Music/Media.localized/Music`.
+Ghostty uses Fira Code. Its global Ctrl-Z shortcut needs macOS Accessibility
+permission.
+
 ### Codex preferences
 
 `make install` links `.codex/config.toml` to `~/.codex/config.toml`.
