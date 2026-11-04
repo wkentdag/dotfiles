@@ -73,7 +73,7 @@ Node loads last, as before.
 | music | `.music` | `flac2mp3` and `starsync` |
 | node | `.node-env` | Node and nvm environment |
 
-The other modules are `vim`, `tmux`, `ghostty`, `lazygit`, and `codex`.
+The other modules are `vim`, `tmux`, `ghostty`, `lazygit`, `rex`, and `codex`.
 
 ### Add a module
 
@@ -147,6 +147,55 @@ creates the link. It stops if that backup already exists. Other files in
 `~/.codex`, such as credentials and sessions, stay in place.
 Copy any settings you want to keep from the backup into `.codex/config.toml`.
 Do not add credentials to this file. Restart Codex to apply the setting.
+
+### Rex
+
+Install the Rex configuration with:
+
+```sh
+make install MODULES="rex"
+```
+
+This application-only module links `rex/init.lua` to `~/.config/rex/init.lua`.
+It preserves `.profile-modules`, `.profile-login`, and other application links.
+A selection that includes shell modules replaces the active shell selection.
+A full `make install` includes Rex automatically.
+
+The configuration keeps Rex's default shortcuts. It adds no Ctrl+B prefix.
+Keep tmux and Herdr available for the existing remote workflow.
+
+Set these preferences in Rex Settings on each Mac:
+
+| Location | Setting |
+| --- | --- |
+| Terminal > Typography | Fira Code, 15 points |
+| Terminal > Typography > Advanced | Enable ligatures |
+| Terminal > Cursor | Block cursor; blink speed Off |
+| Terminal > Keyboard | Option types special characters, rather than Alt |
+| Themes > Import Theme | Import this repo's `rex/ghostty-colors.ghostty` |
+
+The theme file contains the six color entries from `config.ghostty`.
+Import it again after changing the file. The installer does not apply app settings.
+Keep Rex defaults for opacity, blur, and other settings without a verified equivalent.
+The Ghostty global Ctrl+Z quick-terminal shortcut is not migrated.
+
+Use these Rex defaults for the main Herdr tasks:
+
+| Task | Rex shortcut |
+| --- | --- |
+| New session (Herdr workspace) | Shift+Cmd+N |
+| Pick session | Cmd+K |
+| New tab | Cmd+T |
+| Next / previous tab | Ctrl+Tab / Ctrl+Shift+Tab |
+| Split right / down | Cmd+D / Shift+Cmd+D |
+| Focus pane in a direction | Option+Cmd+Arrow |
+| Next / previous pane | Cmd+] / Cmd+[ |
+| Zoom / restore pane | Shift+Cmd+Enter |
+
+See the [Rex shortcuts](https://www.superlogical.com/rex/docs/reference/mac-actions)
+and [Rex settings](https://www.superlogical.com/rex/docs/reference/mac-settings).
+Check a changed Lua file with `rex config check`, then use Reload Config in Rex.
+The shell's `reload` alias reloads the shell, not Rex.
 
 ### Updating
 

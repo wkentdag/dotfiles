@@ -1,0 +1,2 @@
+-- Keep Rex default shortcuts, including cmd+k for the session picker.
+-- Set appearance in Rex Settings. See the Rex section in ../README.md.
