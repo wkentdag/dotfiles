@@ -62,7 +62,7 @@ Node loads last, as before.
 
 | Module | Dotfile | Contents |
 | --- | --- | --- |
-| homebrew | `.homebrew` | Homebrew environment |
+| homebrew | `.homebrew-env` | Homebrew environment |
 | git | `.git-aliases` | Git aliases, completion, worktree utility |
 | prompt | `.prompt` | Bash and zsh prompts, with a fallback without Git |
 | shell | `.shell` | General aliases, directory utilities, history |
