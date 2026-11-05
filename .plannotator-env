@@ -1,0 +1,4 @@
+# Keep the browser origin stable between Plannotator reviews.
+export PLANNOTATOR_PORT=62058
+# Advertise the stable Tailscale Serve address for automatic plan reviews too.
+export PLANNOTATOR_REMOTE=1

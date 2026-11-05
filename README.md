@@ -71,6 +71,7 @@ Node loads last, as before.
 | go | `.go` | Go environment |
 | tools | `.tools` | Command correction, 1Password helper, local executable path |
 | music | `.music` | `flac2mp3` and `starsync` |
+| plannotator | `.plannotator-env` | Stable review port for terminal and login shells |
 | node | `.node-env` | Node and nvm environment |
 
 The other modules are `vim`, `tmux`, `ghostty`, `lazygit`, `rex`, and `codex`.
