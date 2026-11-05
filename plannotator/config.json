@@ -1,0 +1,14 @@
+{
+  "theme": {
+    "mode": "dark",
+    "light": "dark-plus",
+    "dark": "cursor-hc"
+  },
+  "diffOptions": {
+    "fontFamily": "Fira Code"
+  },
+  "reviewAnalysis": {
+    "semanticDiff": true,
+    "callFlow": false
+  }
+}
